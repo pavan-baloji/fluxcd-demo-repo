@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-servicebus-demo  
+spec:
+  selector:
+    matchLabels:
+      app: aks-servicebus-demo
+  template:
+    metadata:
+      labels:
+        app: aks-servicebus-demo
+    spec:
+      containers:
+      - name: aks-servicebus-demo
+        #image: pavanbaloji/keda-sb-queue-demo:v1
+        image: pavanbalojiacr.azurecr.io/keda-sb-queue-demo:v10
+        imagePullPolicy: Always
+        env:
+        - name: SERVICEBUS_CONNECTION_STR
+          value: "Endpoint=sb://az-servicebus-demo001.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=TUFZpRyiQcvGHvRBk4LfNKNmshyzBzsZc+ASbCIg/mM="
+        - name: SERVICEBUS_QUEUE_NAME
+          value: "demo-queue"
+        - name: DELAY_TIME
+          value: "2"
+
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: aks-servicebus-demo-scaler
+spec:
+  scaleTargetRef:
+    name: aks-servicebus-demo  
+  pollingInterval: 5
+  cooldownPeriod: 30
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+  - type: azure-servicebus
+    metadata:
+      queueName: demo-queue
+      namespace: az-servicebus-demo001.servicebus.windows.net
+      messageCount: "1"
+    authenticationRef:
+      name: trigger-auth-service
+
+--- 
+apiVersion: keda.sh/v1alpha1  
+kind: TriggerAuthentication  
+metadata:  
+  name: trigger-auth-service  
+spec:  
+  secretTargetRef:   
+  - parameter: connection  
+    name: pubsub-servicebus-secret  
+    key: connection-string
+
+#---
+#kubectl create secret generic pubsub-servicebus-secret --from-literal=connection-string="Endpoint=sb://az-servicebus-demo001.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=TUFZpRyiQcvGHvRBk4LfNKNmshyzBzsZc+ASbCIg/mM="
+#apiVersion: v1
+#kind: Secret
+#metadata:
+#  name: pubsub-servicebus-secret
+#type: Opaque
+#data:
+  # This is azure service bus namespace connection string
+#  connection-string: RW5kcG9pbnQ9c2I6Ly9rZWRhLXNlcnZpY2VidXMtbmFtZXNwYWNlLnNlcnZpY2VidXMud2luZG93cy5uZXQvO1NoYXJlZEFjY2Vzc0tleU5hbWU9Um9vdE1hbmFnZVNoYXJlZEFjY2Vzc0tleTtTaGFyZWRBY2Nlc3NLZXk9bGQ4akIyV042SWRlbzJkMWJobXpYR01SZWRIOXg5ZloremFxSGtmVUQrcz0=
+
