@@ -20,7 +20,6 @@ metadata:
 spec:
   interval: 10m0s
   path: ./manifests
-  prune: true
   sourceRef:
     kind: GitRepository
     name: fluxcd-demo-app
