@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aks-servicebus-demo  
+  name: aks-servicebus-demo2  
 spec:
   selector:
     matchLabels:
