@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: fluxcd-demo-repo-auth
-  url: ssh://git@github.com/pavan-baloji/fluxcd-demo-repo
+  url: https://github.com/pavan-baloji/fluxcd-demo-repo
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
