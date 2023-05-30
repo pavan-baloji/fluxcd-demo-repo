@@ -25,13 +25,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: fluxcd-demo-repo-auth
-  namespace: flux-system
-type: Opaque
-data:
-  username: cGF2YW5iYWxvamlAZ21haWwuY29t
-  password: Z2hwX0x0RmMyZkQ4TUZRVVlRN01UQklKOXRaTHRLT0VORTIxOGkxWQ==
