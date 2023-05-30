@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aks-servicebus-demo2  
+  name: aks-servicebus-demo  
+  namespace: aks-servicebus-demo
 spec:
   selector:
     matchLabels:
@@ -29,6 +30,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: aks-servicebus-demo-scaler
+  namespace: aks-servicebus-demo
 spec:
   scaleTargetRef:
     name: aks-servicebus-demo  
@@ -49,7 +51,8 @@ spec:
 apiVersion: keda.sh/v1alpha1  
 kind: TriggerAuthentication  
 metadata:  
-  name: trigger-auth-service  
+  name: trigger-auth-service
+  namespace: aks-servicebus-demo  
 spec:  
   secretTargetRef:   
   - parameter: connection  
