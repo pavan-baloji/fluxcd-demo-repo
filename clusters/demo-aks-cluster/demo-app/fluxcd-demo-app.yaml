@@ -9,7 +9,7 @@ spec:
   ref:
     branch: master
   secretRef:
-    name: fluxcd-demo-app-auth
+    name: fluxcd-demo-repo-auth
   url: https://github.com/pavan-baloji/fluxcd-demo-app
 
 ---
@@ -26,12 +26,3 @@ spec:
     kind: GitRepository
     name: fluxcd-demo-app
   targetNamespace: 1-demo
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: fluxcd-demo-app-auth
-  namespace: flux-system
-stringData:
-  password: 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
-  username: pavanbaloji@gmail.com
