@@ -33,5 +33,5 @@ metadata:
   name: fluxcd-demo-app-auth
   namespace: flux-system
 stringData:
-  password: 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
+  password: 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
   username: pavanbaloji@gmail.com
