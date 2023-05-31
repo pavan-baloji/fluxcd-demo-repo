@@ -20,7 +20,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: block-buster-helm-app
+      chart: helm-chart
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: GitRepository
